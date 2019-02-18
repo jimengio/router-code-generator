@@ -1,8 +1,8 @@
 {
   "name": "@jimengio/router-code-generator",
-  "version": "0.1.0-a1",
+  "version": "0.1.0-a2",
   "description": "",
-  "main": "lib/generator.js",
+  "main": "./lib/generator.js",
   "scripts": {
     "dev": "webpack-dev-server --hot",
     "watch": "webpack-dev-server --hot",
