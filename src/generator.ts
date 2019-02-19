@@ -9,8 +9,8 @@ function convertVariables(x: string): string {
 function convertPathToMethodName(x: string): string {
   let result = x
     .replace(/\/?:\w+/g, (y) => "_")
-    .replace("/", "-")
-    .replace(/-\w+/g, (y) => y.slice(1, 2).toUpperCase() + y.slice(2));
+    .replace(/\//g, "-")
+    .replace(/-\w/g, (y) => y.slice(1, 2).toUpperCase() + y.slice(2));
   if (result === "") {
     return "_";
   } else {
