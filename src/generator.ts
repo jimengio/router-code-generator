@@ -19,7 +19,7 @@ function convertPathToMethodName(x: string): string {
 }
 
 function convertPathToParams(x: string): string {
-  return (x.match(/:\w+/g) || []).map((y) => `${y.slice(1)}${y.endsWith("Id") ? ":Id" : ":string"}`).join(",");
+  return (x.match(/:\w+/g) || []).map((y) => `${y.slice(1)}${/\Id$/.test(y) ? ":Id" : ":string"}`).join(",");
 }
 
 function generateField(rule: IRouteRule, basePath: string): string {
