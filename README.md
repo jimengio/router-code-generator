@@ -3,7 +3,7 @@
 ### Usage
 
 ```bash
-yarn add -dev @jimengio/router-code-generator
+yarn add --dev @jimengio/router-code-generator
 ```
 
 ```js

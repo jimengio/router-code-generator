@@ -7,10 +7,10 @@
     "noImplicitThis": true,
     "strictNullChecks": false,
     "moduleResolution": "node",
-    "module": "es6",
-    "target": "es2015",
+    "module": "commonjs",
+    "target": "es5",
     "jsx": "react",
-    "lib": ["es2016", "dom"],
+    "lib": ["dom", "es5", "scripthost"],
     "types": [],
     "baseUrl": "./src/",
     "plugins": [
