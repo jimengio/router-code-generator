@@ -6,3 +6,5 @@ tsconfig.json
 yarn.lock
 
 dist/
+.cache-loader/
+.awcache/
