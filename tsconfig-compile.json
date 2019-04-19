@@ -13,18 +13,13 @@
     "lib": ["es2016", "dom"],
     "types": [],
     "baseUrl": "./src/",
-    "paths": {
-      "inspect-tip": ["../src/inspect-tip.tsx"]
-    },
+    "paths": {},
     "plugins": [
       {
         "name": "typescript-styled-plugin"
       }
     ]
   },
-  "include": ["src/*.ts", "src/*.tsx", "src/*/*.ts"],
-  "exclude": ["lib/*"],
-  "awesomeTypescriptLoaderOptions": {
-    "useCache": true
-  }
+  "include": ["src/generator.ts"],
+  "exclude": ["src/*/*.ts", "lib/*.js"]
 }

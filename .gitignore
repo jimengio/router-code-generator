@@ -9,3 +9,5 @@ lib/
 .DS_Store
 *.swp
 *.log
+
+.cache-loader/*
