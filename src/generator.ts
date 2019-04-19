@@ -1,5 +1,4 @@
-import { IRouteRule } from "ruled-router";
-import queryString from "query-string";
+import { IRouteRule } from "@jimengio/ruled-router";
 
 function convertVariables(x: string): string {
   return x.replace(/:\w+/g, function(y) {
