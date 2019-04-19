@@ -34,8 +34,8 @@ function convertQueriesParam(queries: string[]): string {
   if (queries == null || queries.length === 0) {
     return "";
   }
-  let queryTypes = queries.map((k) => `${k}:string`).join(", ");
-  return `queries: {${queryTypes}}`;
+  let queryTypes = queries.map((k) => `${k}?:string`).join(", ");
+  return `queries?: {${queryTypes}}`;
 }
 
 function generateField(rule: IRouteRule, basePath: string): string {
