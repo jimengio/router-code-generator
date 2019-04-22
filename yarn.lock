@@ -86,10 +86,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.2.tgz#63985d3d8b02530e0869962f4da09142ee8e200e"
   integrity sha512-n/VQ4mbfr81aqkx/XmVicOLjviMuy02eenSdJY33SVA7S2J42EU0P1H0mOogfYedb3wXA0d/LVtBrgTSm04WEA==
 
-"@jimengio/ruled-router@^0.2.8-a2":
-  version "0.2.8-a2"
-  resolved "https://registry.yarnpkg.com/@jimengio/ruled-router/-/ruled-router-0.2.8-a2.tgz#369cf2a19a3542f1045b21c304e81ad483f9b3e2"
-  integrity sha512-4Ud24t7uniRZ9Kp70Oit8tpRpSLx1v4APwd97j9KtYFQg52/oCyjlDzPwN2UvFKuwa4a72T2v7s/Zz7oi0Cy1A==
+"@jimengio/ruled-router@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@jimengio/ruled-router/-/ruled-router-0.2.8.tgz#905005f3189be7a0ec7d82ae1552bf8357edb378"
+  integrity sha512-On7wNHG5rnBupVV0w/Sayr9YgUgdgYzFPZ+0cKl0dTg5GD8LrP9ZH/iM0D0xjTZe1KiUH/3bMpNrLJ9bjwpbUw==
 
 "@types/history@^4.7.2":
   version "4.7.2"
