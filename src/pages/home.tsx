@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { css } from "emotion";
 import { generateTree } from "../generator";
-import { IRouteRule } from "ruled-router";
+import { IRouteRule } from "@jimengio/ruled-router";
 
 export default function Home() {
   let [text, setText] = useState("");

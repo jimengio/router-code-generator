@@ -4,3 +4,7 @@ template.ejs
 webpack.*
 tsconfig.json
 yarn.lock
+
+dist/
+.cache-loader/
+.awcache/

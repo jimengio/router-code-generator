@@ -1,4 +1,4 @@
-import { IRouteRule } from "ruled-router";
+import { IRouteRule } from "@jimengio/ruled-router";
 
 function convertVariables(x: string): string {
   return x.replace(/:\w+/g, function(y) {
@@ -19,22 +19,38 @@ function convertPathToMethodName(x: string): string {
 }
 
 function convertPathToParams(x: string): string {
-  return (x.match(/:\w+/g) || []).map((y) => `${y.slice(1)}${/\Id$/.test(y) ? ":Id" : ":string"}`).join(",");
+  return (x.match(/:\w+/g) || []).map((y) => `${y.slice(1)}${/\Id$/.test(y) ? ":Id" : ":string"},`).join("");
+}
+
+function getQueryPath(queries: string[]): string {
+  if (queries == null || queries.length === 0) {
+    return "";
+  }
+  return "?${qsStringify(queries)}";
+}
+
+function convertQueriesParam(queries: string[]): string {
+  if (queries == null || queries.length === 0) {
+    return "";
+  }
+  let queryTypes = queries.map((k) => `${k}?:string`).join(", ");
+  return `queries?: {${queryTypes}}`;
 }
 
 function generateField(rule: IRouteRule, basePath: string): string {
   let nameString = JSON.stringify(rule.name || rule.path || "");
   let currentPath = `${basePath}/${rule.path}`;
   let rawPath = JSON.stringify(rule.path);
-  let pathInString = "`" + convertVariables(currentPath) + "`";
+  let pathInString = "`" + convertVariables(currentPath) + getQueryPath(rule.queries) + "`";
   let propName = convertPathToMethodName(rule.path);
-  let fieldsInString = ((rule as any).next || []).map((childRule) => generateField(childRule, currentPath)).join("\n");
+  let fieldsInString = ((rule as any).next || []).map((childRule: IRouteRule) => generateField(childRule, currentPath)).join("\n");
   let paramsList = convertPathToParams(currentPath);
+  let queriesParam = convertQueriesParam(rule.queries);
   let resultObj = ` {
 		name: ${nameString},
 		raw: ${rawPath},
-		path: (${paramsList}) => ${pathInString},
-		go: (${paramsList}) => switchPath(${pathInString}),
+		path: (${paramsList} ${queriesParam}) => ${pathInString},
+		go: (${paramsList} ${queriesParam}) => switchPath(${pathInString}),
 		${fieldsInString}
 	}
 	`;
