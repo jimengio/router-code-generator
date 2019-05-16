@@ -1,6 +1,6 @@
 {
   "name": "@jimengio/router-code-generator",
-  "version": "0.1.3-a2",
+  "version": "0.1.3",
   "description": "",
   "main": "./lib/generator.js",
   "scripts": {
