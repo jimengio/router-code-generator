@@ -11,3 +11,5 @@ lib/
 *.log
 
 .cache-loader/*
+
+coverage

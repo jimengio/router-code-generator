@@ -19,7 +19,7 @@ function convertPathToMethodName(x: string): string {
 }
 
 function convertPathToParams(x: string): string {
-  return (x.match(/:\w+/g) || []).map((y) => `${y.slice(1)}${/\Id$/.test(y) ? ":Id" : ":string"},`).join("");
+  return (x.match(/:\w+/g) || []).map((y) => `${y.slice(1)}${/\Id$/.test(y) ? ":Id" : ":string"},`).join(" ");
 }
 
 function getQueryPath(queries: string[]): string {
@@ -29,28 +29,41 @@ function getQueryPath(queries: string[]): string {
   return "?${qsStringify(queries)}";
 }
 
-function convertQueriesParam(queries: string[]): string {
+function getDefaultQueryTypes(queries: string[]): string {
   if (queries == null || queries.length === 0) {
     return "";
   }
   let queryTypes = queries.map((k) => `${k}?:string`).join(", ");
-  return `queries?: {${queryTypes}}`;
+  return `{${queryTypes}}`;
 }
 
 function generateField(rule: IRouteRule, basePath: string): string {
   let nameString = JSON.stringify(rule.name || rule.path || "");
   let currentPath = `${basePath}/${rule.path}`;
   let rawPath = JSON.stringify(rule.path);
-  let pathInString = "`" + convertVariables(currentPath) + getQueryPath(rule.queries) + "`";
   let propName = convertPathToMethodName(rule.path);
   let fieldsInString = ((rule as any).next || []).map((childRule: IRouteRule) => generateField(childRule, currentPath)).join("\n");
   let paramsList = convertPathToParams(currentPath);
-  let queriesParam = convertQueriesParam(rule.queries);
+  let pathInString: string;
+  if (rule.queries == null || rule.queries.length === 0) {
+    pathInString = "`" + convertVariables(currentPath) + "`";
+    let resultObj = ` {
+      name: ${nameString},
+      raw: ${rawPath},
+      path: (${paramsList}) => ${pathInString},
+      go: (${paramsList}) => switchPath(${pathInString}),
+      ${fieldsInString}
+    }
+    `;
+    return `${propName}: ${resultObj},`;
+  }
+  pathInString = "`" + convertVariables(currentPath) + getQueryPath(rule.queries) + "`";
+  let queriesParam = getDefaultQueryTypes(rule.queries);
   let resultObj = ` {
 		name: ${nameString},
 		raw: ${rawPath},
-		path: (${paramsList} ${queriesParam}) => ${pathInString},
-		go: (${paramsList} ${queriesParam}) => switchPath(${pathInString}),
+		path: <T=${queriesParam}>(${paramsList} queries: T) => ${pathInString},
+		go: <T=${queriesParam}>(${paramsList} queries: T) => switchPath(${pathInString}),
 		${fieldsInString}
 	}
 	`;
