@@ -11,12 +11,13 @@
     "target": "es2015",
     "jsx": "react",
     "lib": ["es2016", "dom"],
-    "types": [],
+    "types": ["jest", "node"],
     "baseUrl": "./src/",
     "plugins": [
       {
         "name": "typescript-styled-plugin"
       }
     ]
-  }
+  },
+  "exclude": ["tests/generated-*.ts"]
 }
