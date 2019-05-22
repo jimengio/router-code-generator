@@ -8,3 +8,7 @@ yarn.lock
 dist/
 .cache-loader/
 .awcache/
+
+tests/*
+coverage/*
+jest.config.js
