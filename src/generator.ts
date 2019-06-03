@@ -38,9 +38,10 @@ function getDefaultQueryTypes(queries: string[]): string {
 }
 
 function path2QueryName(path: string): string {
-  let piece = path.replace(/:\w+/g, "_").replace(/\/(\w)/g, (x) => {
-    return x[1].toUpperCase();
-  });
+  let piece = path
+    .replace(/:\w+/g, "_")
+    .replace(/\/(\w)/g, (x) => x[1].toUpperCase())
+    .replace(/-(\w)/g, (x) => x[1].toUpperCase());
   return `IGenQuery${piece}`;
 }
 

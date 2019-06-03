@@ -48,3 +48,11 @@ test("nested router", () => {
   let expectedCode = loadFile("generated-nested.ts");
   expect(formatted).toBe(expectedCode);
 });
+
+test("kebab path", () => {
+  let rules = loadJSON("kebab-path.json");
+  let result = generateTree(rules);
+  let formatted = prettier.format(result, prettierConfigs);
+  let expectedCode = loadFile("generated-kebab-path.ts");
+  expect(formatted).toBe(expectedCode);
+});
