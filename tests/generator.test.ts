@@ -56,3 +56,11 @@ test("kebab path", () => {
   let expectedCode = loadFile("generated-kebab-path.ts");
   expect(formatted).toBe(expectedCode);
 });
+
+test("home path", () => {
+  let rules = loadJSON("home-path.json");
+  let result = generateTree(rules);
+  let formatted = prettier.format(result, prettierConfigs);
+  let expectedCode = loadFile("generated-home-path.ts");
+  expect(formatted).toBe(expectedCode);
+});
