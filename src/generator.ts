@@ -12,7 +12,7 @@ function convertPathToMethodName(x: string): string {
     .replace(/\//g, "-")
     .replace(/-\w/g, (y) => y.slice(1, 2).toUpperCase() + y.slice(2));
   if (result === "") {
-    return "_";
+    return "$";
   } else {
     return result;
   }
@@ -41,7 +41,8 @@ function path2QueryName(path: string): string {
   let piece = path
     .replace(/:\w+/g, "_")
     .replace(/\/(\w)/g, (x) => x[1].toUpperCase())
-    .replace(/-(\w)/g, (x) => x[1].toUpperCase());
+    .replace(/-(\w)/g, (x) => x[1].toUpperCase())
+    .replace(/\/$/, "$");
   return `IGenQuery${piece}`;
 }
 
