@@ -1,5 +1,9 @@
 ## Router code generator
 
+> Router controller code generated of [ruled-router](https://github.com/jimengio/ruled-router).
+
+Live version: http://fe.jimu.io/router-code-generator
+
 ### Usage
 
 ![](https://img.shields.io/npm/v/@jimengio/router-code-generator.svg?style=flat-square)
@@ -8,9 +12,13 @@
 yarn add --dev @jimengio/router-code-generator
 ```
 
-```js
+```ts
 import { generateTree } from "@jimengio/router-code-generator";
+
+generateTree(jsonRules);
 ```
+
+### Simplified demos
 
 - Basic router controller generator
 
