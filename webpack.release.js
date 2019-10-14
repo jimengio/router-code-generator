@@ -7,7 +7,7 @@ let ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 module.exports = {
   mode: "production",
   entry: {
-    vendor: ["react", "react-dom", "font-awesome/css/font-awesome.min.css"],
+    vendor: ["react", "react-dom"],
     main: ["./src/main.tsx"],
   },
   output: {
