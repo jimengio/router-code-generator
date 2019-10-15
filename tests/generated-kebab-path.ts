@@ -7,8 +7,8 @@ export let genRouter = {
     cD: {
       name: "c-d",
       raw: "c-d",
-      path: <T = IGenQueryABCD>(queries?: T) => `/a-b/c-d?${qsStringify(queries)}`,
-      go: <T = IGenQueryABCD>(queries?: T) => switchPath(`/a-b/c-d?${qsStringify(queries)}`),
+      path: (queries?: IGenQueryABCD) => `/a-b/c-d?${qsStringify(queries)}`,
+      go: (queries?: IGenQueryABCD) => switchPath(`/a-b/c-d?${qsStringify(queries)}`),
     },
   },
 };

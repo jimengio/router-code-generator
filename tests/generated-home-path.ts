@@ -2,8 +2,8 @@ export let genRouter = {
   $: {
     name: "home",
     raw: "",
-    path: <T = IGenQuery$>(queries?: T) => `/?${qsStringify(queries)}`,
-    go: <T = IGenQuery$>(queries?: T) => switchPath(`/?${qsStringify(queries)}`),
+    path: (queries?: IGenQuery$) => `/?${qsStringify(queries)}`,
+    go: (queries?: IGenQuery$) => switchPath(`/?${qsStringify(queries)}`),
   },
 };
 

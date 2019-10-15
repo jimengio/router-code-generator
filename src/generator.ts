@@ -74,8 +74,8 @@ function generateField(rule: IRouteRule, basePath: string, trackQueryTypse: (nam
   let resultObj = ` {
 		name: ${nameString},
 		raw: ${rawPath},
-		path: <T=${queryName}>(${paramsList} queries?: T) => ${pathInString},
-		go: <T=${queryName}>(${paramsList} queries?: T) => switchPath(${pathInString}),
+		path: (${paramsList} queries?: ${queryName}) => ${pathInString},
+		go: (${paramsList} queries?: ${queryName}) => switchPath(${pathInString}),
 		${fieldsInString}
 	}
 	`;
