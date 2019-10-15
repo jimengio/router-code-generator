@@ -1,6 +1,6 @@
 {
   "name": "@jimengio/router-code-generator",
-  "version": "0.2.0",
+  "version": "0.2.1-a1",
   "description": "",
   "main": "./lib/generator.js",
   "scripts": {
@@ -17,7 +17,6 @@
   },
   "keywords": [],
   "author": "",
-  "private": true,
   "devDependencies": {
     "@jimengio/flex-styles": "^0.1.5",
     "@jimengio/ruled-router": "^0.2.15",
