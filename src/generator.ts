@@ -47,12 +47,12 @@ function path2QueryName(path: string): string {
   return `IGenQuery${piece}`;
 }
 
-function generateField(rule: IRouteRule, basePath: string, trackQueryTypse: (name: string, queries: string[]) => void): string {
+function generateField(rule: IRouteRule, basePath: string, trackQueryTypes: (name: string, queries: string[]) => void): string {
   let nameString = JSON.stringify(rule.name || rule.path || "");
   let currentPath = `${basePath}/${rule.path}`;
   let rawPath = JSON.stringify(rule.path);
   let propName = convertPathToMethodName(rule.path);
-  let fieldsInString = ((rule as any).next || []).map((childRule: IRouteRule) => generateField(childRule, currentPath, trackQueryTypse)).join("\n");
+  let fieldsInString = ((rule as any).next || []).map((childRule: IRouteRule) => generateField(childRule, currentPath, trackQueryTypes)).join("\n");
   let paramsList = convertPathToParams(currentPath);
   let pathInString: string;
   if (rule.queries == null || rule.queries.length === 0) {
@@ -70,7 +70,7 @@ function generateField(rule: IRouteRule, basePath: string, trackQueryTypse: (nam
   pathInString = "`" + convertVariables(currentPath) + getQueryPath(rule.queries) + "`";
   let queryName = path2QueryName(currentPath);
 
-  trackQueryTypse(queryName, rule.queries);
+  trackQueryTypes(queryName, rule.queries);
 
   let resultObj = ` {
 		name: ${nameString},
@@ -87,10 +87,10 @@ export function generateTree(rules: IRouteRule[], options?: { addVersion?: boole
   options = options || {};
 
   let queryTypes: [string, string[]][] = [];
-  let trackQueryTypse = (name: string, queries: string[]) => {
+  let trackQueryTypes = (name: string, queries: string[]) => {
     queryTypes.push([name, queries]);
   };
-  let fieldsInString = rules.map((y) => generateField(y, "", trackQueryTypse)).join("\n");
+  let fieldsInString = rules.map((y) => generateField(y, "", trackQueryTypes)).join("\n");
   let queryTypesInString = queryTypes
     .map(([name, queries]) => {
       return `export interface ${name} ${getDefaultQueryTypes(queries)};`;
