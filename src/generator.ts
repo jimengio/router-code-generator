@@ -1,4 +1,5 @@
 import { IRouteRule } from "@jimengio/ruled-router";
+let pkg = require("../package.json");
 
 function convertVariables(x: string): string {
   return x.replace(/:\w+/g, function(y) {
@@ -82,7 +83,9 @@ function generateField(rule: IRouteRule, basePath: string, trackQueryTypse: (nam
   return `${propName}: ${resultObj},`;
 }
 
-export function generateTree(rules: IRouteRule[]): string {
+export function generateTree(rules: IRouteRule[], options?: { addVersion?: boolean }): string {
+  options = options || {};
+
   let queryTypes: [string, string[]][] = [];
   let trackQueryTypse = (name: string, queries: string[]) => {
     queryTypes.push([name, queries]);
@@ -93,9 +96,15 @@ export function generateTree(rules: IRouteRule[]): string {
       return `export interface ${name} ${getDefaultQueryTypes(queries)};`;
     })
     .join("\n\n");
-  return `export let genRouter = {
+  let code = `export let genRouter = {
     ${fieldsInString}
   };
 
   ${queryTypesInString}`;
+
+  if (options.addVersion) {
+    return `// Generated with router-code-generator@${pkg.version}\n\n${code}`;
+  } else {
+    return code;
+  }
 }

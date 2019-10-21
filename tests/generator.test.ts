@@ -64,3 +64,12 @@ test("home path", () => {
   let expectedCode = loadFile("generated-home-path.ts");
   expect(formatted).toBe(expectedCode);
 });
+
+test("basic version", () => {
+  let rules = loadJSON("basic.json");
+  let result = generateTree(rules, { addVersion: true });
+  let formatted = prettier.format(result, prettierConfigs);
+  let pkg = require("../package.json");
+  let expectedCode = loadFile("generated-basic-version.ts").replace("{version}", pkg.version);
+  expect(formatted).toBe(expectedCode);
+});
