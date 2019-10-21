@@ -73,3 +73,11 @@ test("basic version", () => {
   let expectedCode = loadFile("generated-basic-version.ts").replace("{version}", pkg.version);
   expect(formatted).toBe(expectedCode);
 });
+
+test("empty query", () => {
+  let rules = loadJSON("empty-query.json");
+  let result = generateTree(rules);
+  let formatted = prettier.format(result, prettierConfigs);
+  let expectedCode = loadFile("generated-empty-query.ts");
+  expect(formatted).toBe(expectedCode);
+});
