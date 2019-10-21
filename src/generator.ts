@@ -31,7 +31,7 @@ function getQueryPath(queries: string[]): string {
 }
 
 function getDefaultQueryTypes(queries: string[]): string {
-  if (queries == null || queries.length === 0) {
+  if (queries == null) {
     return "";
   }
   let queryTypes = queries.map((k) => `${k}?:string`).join(", ");
@@ -55,7 +55,9 @@ function generateField(rule: IRouteRule, basePath: string, trackQueryTypes: (nam
   let fieldsInString = ((rule as any).next || []).map((childRule: IRouteRule) => generateField(childRule, currentPath, trackQueryTypes)).join("\n");
   let paramsList = convertPathToParams(currentPath);
   let pathInString: string;
-  if (rule.queries == null || rule.queries.length === 0) {
+
+  // for queries=[], allow generating queries:{} for use cases such as `queries as any`
+  if (rule.queries == null) {
     pathInString = "`" + convertVariables(currentPath) + "`";
     let resultObj = ` {
       name: ${nameString},
@@ -70,7 +72,12 @@ function generateField(rule: IRouteRule, basePath: string, trackQueryTypes: (nam
   pathInString = "`" + convertVariables(currentPath) + getQueryPath(rule.queries) + "`";
   let queryName = path2QueryName(currentPath);
 
-  trackQueryTypes(queryName, rule.queries);
+  if (rule.queries.length > 0) {
+    trackQueryTypes(queryName, rule.queries);
+  } else {
+    // handle empty queries carefully, not need to create a new name
+    queryName = "{}";
+  }
 
   let resultObj = ` {
 		name: ${nameString},
