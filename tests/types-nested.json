@@ -1,0 +1,32 @@
+[
+  {
+    "name": "a",
+    "path": "a",
+    "next": [
+      {
+        "name": "b",
+        "path": "b"
+      },
+      {
+        "name": "c",
+        "path": "c/:cid",
+        "next": [
+          {
+            "name": "d",
+            "path": "d/:did"
+          },
+          {
+            "name": "e",
+            "path": "e",
+            "queries": ["f"]
+          },
+          {
+            "name": "g",
+            "path": "g/:gid",
+            "queries": ["h"]
+          }
+        ]
+      }
+    ]
+  }
+]

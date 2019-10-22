@@ -81,3 +81,11 @@ test("empty query", () => {
   let expectedCode = loadFile("generated-empty-query.ts");
   expect(formatted).toBe(expectedCode);
 });
+
+test("generate types", () => {
+  let rules = loadJSON("types-nested.json");
+  let result = generateTree(rules, { addTypes: true });
+  let formatted = prettier.format(result, prettierConfigs);
+  let expectedCode = loadFile("generated-types-nested.ts");
+  expect(formatted).toBe(expectedCode);
+});

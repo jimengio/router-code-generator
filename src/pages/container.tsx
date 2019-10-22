@@ -14,7 +14,7 @@ let Container: FC<{}> = React.memo((props) => {
 
   let changeCode = () => {
     try {
-      setResult(generateTree(JSON.parse(text) as IRouteRule[]));
+      setResult(generateTree(JSON.parse(text) as IRouteRule[], { addTypes: true }));
     } catch (err) {
       setResult(err.message);
     }
