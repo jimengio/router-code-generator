@@ -121,6 +121,55 @@ export let genRouter = {
 };
 ```
 
+- Parsed router types(Experimental):
+
+```ts
+generateTree(jsonRules, { addTypes: true });
+```
+
+```json
+[
+  {
+    "path": "a",
+    "queries": ["a"],
+    "next": [
+      {
+        "path": "b",
+        "queries": ["a", "b"]
+      },
+      {
+        "path": "d"
+      }
+    ]
+  }
+]
+```
+
+```ts
+export type GenRouterTypeMain = GenRouterTypeTree["a"];
+
+export interface GenRouterTypeTree {
+  a: {
+    name: "a";
+    params: {};
+    query: { a: string };
+    next: GenRouterTypeTree["a"]["b"] | GenRouterTypeTree["a"]["d"];
+    b: {
+      name: "b";
+      params: {};
+      query: { a: string; b: string };
+      next: null;
+    };
+    d: {
+      name: "d";
+      params: {};
+      query: { a: string };
+      next: null;
+    };
+  };
+}
+```
+
 ### License
 
 MIT
