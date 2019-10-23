@@ -138,7 +138,12 @@ let generateTypesInterface = (rule: IRouteRule, baseType: string, inheritVariabl
   let variables = inheritVariables.concat(currentVariables);
   let variablesCode = variables.map((x) => `${x}: string`).join(",");
 
-  let queries = inheritQueries.concat(rule.queries || []);
+  let queries = inheritQueries.concat([]);
+  (rule.queries || []).forEach((query) => {
+    if (!queries.includes(query)) {
+      queries.push(query);
+    }
+  });
   let queriesCode = queries.map((x) => `${x}: string`).join(",");
 
   let nextTypesCode = (rule.next || []).map((x) => `${baseType}[${formatPropName(x.path)}]`).join(" | ");
