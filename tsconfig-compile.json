@@ -22,5 +22,5 @@
     ]
   },
   "include": ["src/generator.ts"],
-  "exclude": ["src/*/*.ts", "lib/*.js"]
+  "exclude": ["src/*/*.ts", "lib/*.js", "tests/generated/*.ts"]
 }

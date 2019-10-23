@@ -20,5 +20,5 @@
       }
     ]
   },
-  "exclude": ["tests/generated-*.ts"]
+  "exclude": ["tests/generated/*.ts"]
 }
