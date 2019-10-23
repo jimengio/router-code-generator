@@ -4,7 +4,6 @@
     "path": "a",
     "next": [
       {
-        "name": "b",
         "path": "b"
       },
       {
@@ -16,7 +15,6 @@
             "path": "d/:did"
           },
           {
-            "name": "e",
             "path": "e",
             "queries": ["f"]
           },

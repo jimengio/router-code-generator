@@ -140,7 +140,7 @@ let generateTypesInterface = (rule: IRouteRule, baseType: string, inheritVariabl
   let queries = inheritQueries.concat(rule.queries || []);
   let queriesCode = queries.map((x) => `${x}: string`).join(",");
 
-  let nextTypesCode = (rule.next || []).map((x) => `${baseType}[${formatPropName(x.path)}]["$types"]`).join(" | ");
+  let nextTypesCode = (rule.next || []).map((x) => `${baseType}[${formatPropName(x.path)}]["$type"]`).join(" | ");
 
   let childrenCode = (rule.next || []).map((rule) => {
     return `${convertPathToMethodName(rule.path)}: ${generateTypesInterface(rule, `${baseType}[${formatPropName(rule.path)}]`, variables, queries)}`;
@@ -148,10 +148,10 @@ let generateTypesInterface = (rule: IRouteRule, baseType: string, inheritVariabl
 
   return `
   {
-    $types: {
-      name: ${JSON.stringify(rule.name)},
+    $type: {
+      name: ${JSON.stringify(rule.name || rule.path || "")},
       params: {${variablesCode}},
-      queries: {${queriesCode}},
+      query: {${queriesCode}},
       next: ${nextTypesCode || "null"}
     },
     ${childrenCode}
@@ -168,7 +168,7 @@ export let generateTypesTree = (rules: IRouteRule[]) => {
 
   let topLevelInterfacesCode = rules
     .map((rule) => {
-      return `${genTypeName}[${formatPropName(rule.path)}]`;
+      return `${genTypeName}[${formatPropName(rule.path)}]["$type"]`;
     })
     .join(" | ");
 
