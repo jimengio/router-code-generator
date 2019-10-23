@@ -1,6 +1,7 @@
 import { IRouteRule } from "@jimengio/ruled-router";
 let pkg = require("../package.json");
 let genTypeName = "GenRouterTypeTree";
+let genTypeMain = "GenRouterTypeMain";
 
 /** get string interpolation code from each path with variables */
 function convertVariables(x: string): string {
@@ -140,7 +141,7 @@ let generateTypesInterface = (rule: IRouteRule, baseType: string, inheritVariabl
   let queries = inheritQueries.concat(rule.queries || []);
   let queriesCode = queries.map((x) => `${x}: string`).join(",");
 
-  let nextTypesCode = (rule.next || []).map((x) => `${baseType}[${formatPropName(x.path)}]["$type"]`).join(" | ");
+  let nextTypesCode = (rule.next || []).map((x) => `${baseType}[${formatPropName(x.path)}]`).join(" | ");
 
   let childrenCode = (rule.next || []).map((rule) => {
     return `${convertPathToMethodName(rule.path)}: ${generateTypesInterface(rule, `${baseType}[${formatPropName(rule.path)}]`, variables, queries)}`;
@@ -148,12 +149,10 @@ let generateTypesInterface = (rule: IRouteRule, baseType: string, inheritVariabl
 
   return `
   {
-    $type: {
-      name: ${JSON.stringify(rule.name || rule.path || "")},
-      params: {${variablesCode}},
-      query: {${queriesCode}},
-      next: ${nextTypesCode || "null"}
-    },
+    name: ${JSON.stringify(rule.name || rule.path || "")},
+    params: {${variablesCode}},
+    query: {${queriesCode}},
+    next: ${nextTypesCode || "null"}
     ${childrenCode}
   }
   `;
@@ -168,12 +167,12 @@ export let generateTypesTree = (rules: IRouteRule[]) => {
 
   let topLevelInterfacesCode = rules
     .map((rule) => {
-      return `${genTypeName}[${formatPropName(rule.path)}]["$type"]`;
+      return `${genTypeName}[${formatPropName(rule.path)}]`;
     })
     .join(" | ");
 
   return `
-  export type GenRouterTypesRoot = ${topLevelInterfacesCode}
+  export type ${genTypeMain} = ${topLevelInterfacesCode}
 
   export interface ${genTypeName} {
     ${childrenCode}

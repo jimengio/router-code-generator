@@ -45,54 +45,42 @@ export interface IGenQueryAC_G_ {
   h?: string;
 }
 
-export type GenRouterTypesRoot = GenRouterTypeTree["a"]["$type"];
+export type GenRouterTypeMain = GenRouterTypeTree["a"];
 
 export interface GenRouterTypeTree {
   a: {
-    $type: {
-      name: "a";
+    name: "a";
+    params: {};
+    query: {};
+    next: GenRouterTypeTree["a"]["b"] | GenRouterTypeTree["a"]["c_"];
+    b: {
+      name: "b";
       params: {};
       query: {};
-      next: GenRouterTypeTree["a"]["b"]["$type"] | GenRouterTypeTree["a"]["c_"]["$type"];
+      next: null;
     };
-    b: {
-      $type: {
-        name: "b";
-        params: {};
+    c_: {
+      name: "c";
+      params: { cid: string };
+      query: {};
+      next: GenRouterTypeTree["a"]["c_"]["d_"] | GenRouterTypeTree["a"]["c_"]["e"] | GenRouterTypeTree["a"]["c_"]["g_"];
+      d_: {
+        name: "d";
+        params: { cid: string; did: string };
         query: {};
         next: null;
       };
-    };
-    c_: {
-      $type: {
-        name: "c";
-        params: { cid: string };
-        query: {};
-        next: GenRouterTypeTree["a"]["c_"]["d_"]["$type"] | GenRouterTypeTree["a"]["c_"]["e"]["$type"] | GenRouterTypeTree["a"]["c_"]["g_"]["$type"];
-      };
-      d_: {
-        $type: {
-          name: "d";
-          params: { cid: string; did: string };
-          query: {};
-          next: null;
-        };
-      };
       e: {
-        $type: {
-          name: "e";
-          params: { cid: string };
-          query: { f: string };
-          next: null;
-        };
+        name: "e";
+        params: { cid: string };
+        query: { f: string };
+        next: null;
       };
       g_: {
-        $type: {
-          name: "g";
-          params: { cid: string; gid: string };
-          query: { h: string };
-          next: null;
-        };
+        name: "g";
+        params: { cid: string; gid: string };
+        query: { h: string };
+        next: null;
       };
     };
   };
