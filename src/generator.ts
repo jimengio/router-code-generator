@@ -1,12 +1,16 @@
 import { IRouteRule } from "@jimengio/ruled-router";
 let pkg = require("../package.json");
+let genTypeName = "GenRouterTypeTree";
+let genTypeMain = "GenRouterTypeMain";
 
+/** get string interpolation code from each path with variables */
 function convertVariables(x: string): string {
   return x.replace(/:\w+/g, function(y) {
     return "${" + y.slice(1) + "}";
   });
 }
 
+/** get property name from path, from `/ab/cd` to `AbCd */
 function convertPathToMethodName(x: string): string {
   let result = x
     .replace(/\/?:\w+/g, (y) => "_")
@@ -38,6 +42,7 @@ function getDefaultQueryTypes(queries: string[]): string {
   return `{${queryTypes}}`;
 }
 
+/** generats code from /ab/cd to IGenQueryAbCd  */
 function path2QueryName(path: string): string {
   let piece = path
     .replace(/:\w+/g, "_")
@@ -90,7 +95,8 @@ function generateField(rule: IRouteRule, basePath: string, trackQueryTypes: (nam
   return `${propName}: ${resultObj},`;
 }
 
-export function generateTree(rules: IRouteRule[], options?: { addVersion?: boolean }): string {
+/** Controller code generation function */
+export function generateTree(rules: IRouteRule[], options?: { addVersion?: boolean; addTypes?: boolean }): string {
   options = options || {};
 
   let queryTypes: [string, string[]][] = [];
@@ -110,8 +116,71 @@ export function generateTree(rules: IRouteRule[], options?: { addVersion?: boole
   ${queryTypesInString}`;
 
   if (options.addVersion) {
-    return `// Generated with router-code-generator@${pkg.version}\n\n${code}`;
-  } else {
-    return code;
+    code = `// Generated with router-code-generator@${pkg.version}\n\n${code}`;
   }
+
+  if (options.addTypes) {
+    code = `${code}\n\n${generateTypesTree(rules)}`;
+  }
+
+  return code;
 }
+
+/** generate from path to property name */
+let formatPropName = (x: string) => JSON.stringify(convertPathToMethodName(x));
+
+let generateTypesInterface = (rule: IRouteRule, baseType: string, inheritVariables: string[], inheritQueries: string[]) => {
+  let currentVariables = rule.path
+    .split("/")
+    .filter((x) => x.length > 0)
+    .filter((x) => x[0] === ":")
+    .map((x) => x.slice(1));
+  let variables = inheritVariables.concat(currentVariables);
+  let variablesCode = variables.map((x) => `${x}: string`).join(",");
+
+  let queries = inheritQueries.concat([]);
+  (rule.queries || []).forEach((query) => {
+    if (!queries.includes(query)) {
+      queries.push(query);
+    }
+  });
+  let queriesCode = queries.map((x) => `${x}: string`).join(",");
+
+  let nextTypesCode = (rule.next || []).map((x) => `${baseType}[${formatPropName(x.path)}]`).join(" | ");
+
+  let childrenCode = (rule.next || []).map((rule) => {
+    return `${convertPathToMethodName(rule.path)}: ${generateTypesInterface(rule, `${baseType}[${formatPropName(rule.path)}]`, variables, queries)}`;
+  });
+
+  return `
+  {
+    name: ${JSON.stringify(rule.name || rule.path || "")},
+    params: {${variablesCode}},
+    query: {${queriesCode}},
+    next: ${nextTypesCode || "null"}
+    ${childrenCode}
+  }
+  `;
+};
+
+/** Generate types from rules */
+export let generateTypesTree = (rules: IRouteRule[]) => {
+  let childrenCode = rules.map((rule: IRouteRule) => {
+    let interfaceCode = generateTypesInterface(rule, `${genTypeName}[${formatPropName(rule.path)}]`, [], []);
+    return `${formatPropName(rule.path)}: ${interfaceCode}`;
+  });
+
+  let topLevelInterfacesCode = rules
+    .map((rule) => {
+      return `${genTypeName}[${formatPropName(rule.path)}]`;
+    })
+    .join(" | ");
+
+  return `
+  export type ${genTypeMain} = ${topLevelInterfacesCode}
+
+  export interface ${genTypeName} {
+    ${childrenCode}
+  }
+  `;
+};

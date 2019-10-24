@@ -18,66 +18,82 @@ let loadFile = (filename: string) => {
 };
 
 test("basic router", () => {
-  let rules = loadJSON("basic.json");
+  let rules = loadJSON("json/basic.json");
   let result = generateTree(rules);
   let formatted = prettier.format(result, prettierConfigs);
-  let expectedCode = loadFile("generated-basic.ts");
+  let expectedCode = loadFile("generated/basic.ts");
   expect(formatted).toBe(expectedCode);
 });
 
 test("router with params", () => {
-  let rules = loadJSON("params.json");
+  let rules = loadJSON("json/params.json");
   let result = generateTree(rules);
   let formatted = prettier.format(result, prettierConfigs);
-  let expectedCode = loadFile("generated-params.ts");
+  let expectedCode = loadFile("generated/params.ts");
   expect(formatted).toBe(expectedCode);
 });
 
 test("router with queries", () => {
-  let rules = loadJSON("queries.json");
+  let rules = loadJSON("json/queries.json");
   let result = generateTree(rules);
   let formatted = prettier.format(result, prettierConfigs);
-  let expectedCode = loadFile("generated-queries.ts");
+  let expectedCode = loadFile("generated/queries.ts");
   expect(formatted).toBe(expectedCode);
 });
 
 test("nested router", () => {
-  let rules = loadJSON("nested.json");
+  let rules = loadJSON("json/nested.json");
   let result = generateTree(rules);
   let formatted = prettier.format(result, prettierConfigs);
-  let expectedCode = loadFile("generated-nested.ts");
+  let expectedCode = loadFile("generated/nested.ts");
   expect(formatted).toBe(expectedCode);
 });
 
 test("kebab path", () => {
-  let rules = loadJSON("kebab-path.json");
+  let rules = loadJSON("json/kebab-path.json");
   let result = generateTree(rules);
   let formatted = prettier.format(result, prettierConfigs);
-  let expectedCode = loadFile("generated-kebab-path.ts");
+  let expectedCode = loadFile("generated/kebab-path.ts");
   expect(formatted).toBe(expectedCode);
 });
 
 test("home path", () => {
-  let rules = loadJSON("home-path.json");
+  let rules = loadJSON("json/home-path.json");
   let result = generateTree(rules);
   let formatted = prettier.format(result, prettierConfigs);
-  let expectedCode = loadFile("generated-home-path.ts");
+  let expectedCode = loadFile("generated/home-path.ts");
   expect(formatted).toBe(expectedCode);
 });
 
 test("basic version", () => {
-  let rules = loadJSON("basic.json");
+  let rules = loadJSON("json/basic.json");
   let result = generateTree(rules, { addVersion: true });
   let formatted = prettier.format(result, prettierConfigs);
   let pkg = require("../package.json");
-  let expectedCode = loadFile("generated-basic-version.ts").replace("{version}", pkg.version);
+  let expectedCode = loadFile("generated/basic-version.ts").replace("{version}", pkg.version);
   expect(formatted).toBe(expectedCode);
 });
 
 test("empty query", () => {
-  let rules = loadJSON("empty-query.json");
+  let rules = loadJSON("json/empty-query.json");
   let result = generateTree(rules);
   let formatted = prettier.format(result, prettierConfigs);
-  let expectedCode = loadFile("generated-empty-query.ts");
+  let expectedCode = loadFile("generated/empty-query.ts");
+  expect(formatted).toBe(expectedCode);
+});
+
+test("generate types", () => {
+  let rules = loadJSON("json/types-nested.json");
+  let result = generateTree(rules, { addTypes: true });
+  let formatted = prettier.format(result, prettierConfigs);
+  let expectedCode = loadFile("generated/types-nested.ts");
+  expect(formatted).toBe(expectedCode);
+});
+
+test("queries types", () => {
+  let rules = loadJSON("json/types-queries.json");
+  let result = generateTree(rules, { addTypes: true });
+  let formatted = prettier.format(result, prettierConfigs);
+  let expectedCode = loadFile("generated/types-queries.ts");
   expect(formatted).toBe(expectedCode);
 });
