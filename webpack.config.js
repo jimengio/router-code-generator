@@ -77,6 +77,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "template.ejs",
+      trackingCode: "",
     }),
   ],
 };
