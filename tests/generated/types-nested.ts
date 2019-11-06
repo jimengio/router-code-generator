@@ -73,13 +73,13 @@ export interface GenRouterTypeTree {
       e: {
         name: "e";
         params: { cid: string };
-        query: { f: string };
+        query: { f?: string };
         next: null;
       };
       g_: {
         name: "g";
         params: { cid: string; gid: string };
-        query: { h: string };
+        query: { h?: string };
         next: null;
       };
     };

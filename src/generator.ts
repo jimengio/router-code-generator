@@ -34,11 +34,19 @@ function getQueryPath(queries: string[]): string {
   return "?${qsStringify(queries)}";
 }
 
+let queryToTypeDef = (x: string) => {
+  if (x.endsWith("[]")) {
+    return `${x.replace(/\[\]$/, "")}?: string[]`;
+  } else {
+    return `${x}?: string`;
+  }
+};
+
 function getDefaultQueryTypes(queries: string[]): string {
   if (queries == null) {
     return "";
   }
-  let queryTypes = queries.map((k) => `${k}?:string`).join(", ");
+  let queryTypes = queries.map(queryToTypeDef).join(", ");
   return `{${queryTypes}}`;
 }
 
@@ -144,7 +152,7 @@ let generateTypesInterface = (rule: IRouteRule, baseType: string, inheritVariabl
       queries.push(query);
     }
   });
-  let queriesCode = queries.map((x) => `${x}: string`).join(",");
+  let queriesCode = queries.map(queryToTypeDef).join(",");
 
   let nextTypesCode = (rule.next || []).map((x) => `${baseType}[${formatPropName(x.path)}]`).join(" | ");
 
