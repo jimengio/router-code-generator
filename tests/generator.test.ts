@@ -97,3 +97,11 @@ test("queries types", () => {
   let expectedCode = loadFile("generated/types-queries.ts");
   expect(formatted).toBe(expectedCode);
 });
+
+test("array queries", () => {
+  let rules = loadJSON("json/array-query.json");
+  let result = generateTree(rules, { addTypes: true });
+  let formatted = prettier.format(result, prettierConfigs);
+  let expectedCode = loadFile("generated/array-query.ts");
+  expect(formatted).toBe(expectedCode);
+});

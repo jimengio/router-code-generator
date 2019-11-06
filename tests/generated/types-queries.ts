@@ -34,18 +34,18 @@ export interface GenRouterTypeTree {
   a: {
     name: "a";
     params: {};
-    query: { a: string };
+    query: { a?: string };
     next: GenRouterTypeTree["a"]["b"] | GenRouterTypeTree["a"]["d"];
     b: {
       name: "b";
       params: {};
-      query: { a: string; b: string };
+      query: { a?: string; b?: string };
       next: null;
     };
     d: {
       name: "d";
       params: {};
-      query: { a: string };
+      query: { a?: string };
       next: null;
     };
   };

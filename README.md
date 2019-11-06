@@ -170,6 +170,20 @@ export interface GenRouterTypeTree {
 }
 ```
 
+### `qsStringify`
+
+Recommended implementation for query string:
+
+```ts
+import queryString from "query-string";
+
+let qsStringify = (queries: { [k: string]: any }) => {
+  return queryString.stringify(queries, { arrayFormat: "bracket" });
+};
+```
+
+Also the parser should use the same formatter `bracket`.
+
 ### License
 
 MIT
