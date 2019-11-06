@@ -177,7 +177,7 @@ Recommended implementation for query string:
 ```ts
 import queryString from "query-string";
 
-let qsStringify = (queries: { [k: string]: string | string[] }) => {
+let qsStringify = (queries: { [k: string]: any }) => {
   return queryString.stringify(queries, { arrayFormat: "bracket" });
 };
 ```
