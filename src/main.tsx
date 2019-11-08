@@ -23,7 +23,7 @@ window.addEventListener("hashchange", () => {
 declare var module: any;
 
 if (module.hot) {
-  module.hot.accept([], () => {
+  module.hot.accept(["./pages/container"], () => {
     renderApp();
   });
 }

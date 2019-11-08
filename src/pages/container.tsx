@@ -6,15 +6,23 @@ import { IRouteRule } from "@jimengio/ruled-router";
 import { row, fullscreen, column, rowMiddle, rowParted, flex, expand } from "@jimengio/flex-styles";
 import copy from "copy-to-clipboard";
 
+import parserTypeScript from "prettier/parser-typescript";
+import prettier from "prettier/standalone";
+
 let Container: FC<{}> = React.memo((props) => {
-  let [text, setText] = useState("");
+  let [text, setText] = useState(`[ { "path": "a" } ]`);
   let [result, setResult] = useState("");
 
   /** Methods */
 
   let changeCode = () => {
     try {
-      setResult(generateTree(JSON.parse(text) as IRouteRule[], { addTypes: true }));
+      setResult(
+        prettier.format(generateTree(JSON.parse(text) as IRouteRule[], { addTypes: true }), {
+          parser: "typescript",
+          plugins: [parserTypeScript],
+        })
+      );
     } catch (err) {
       setResult(err.message);
     }
