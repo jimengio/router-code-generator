@@ -105,3 +105,11 @@ test("array queries", () => {
   let expectedCode = loadFile("generated/array-query.ts");
   expect(formatted).toBe(expectedCode);
 });
+
+test("inherit queries", () => {
+  let rules = loadJSON("json/inherit-queries.json");
+  let result = generateTree(rules, { addTypes: true });
+  let formatted = prettier.format(result, prettierConfigs);
+  let expectedCode = loadFile("generated/inherit-queries.ts");
+  expect(formatted).toBe(expectedCode);
+});
