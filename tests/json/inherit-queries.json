@@ -1,0 +1,12 @@
+[
+  {
+    "name": "a",
+    "path": "a",
+    "queries": ["a", "b"],
+    "next": [
+      {
+        "path": "b"
+      }
+    ]
+  }
+]

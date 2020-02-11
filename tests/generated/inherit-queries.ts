@@ -10,12 +10,6 @@ export let genRouter = {
       path: (queries?: IGenQueryAB) => `/a/b?${qsStringify(queries)}`,
       go: (queries?: IGenQueryAB) => switchPath(`/a/b?${qsStringify(queries)}`),
     },
-    d: {
-      name: "d",
-      raw: "d",
-      path: (queries?: IGenQueryAD) => `/a/d?${qsStringify(queries)}`,
-      go: (queries?: IGenQueryAD) => switchPath(`/a/d?${qsStringify(queries)}`),
-    },
   },
 };
 
@@ -24,12 +18,9 @@ export interface IGenQueryAB {
   b?: string;
 }
 
-export interface IGenQueryAD {
-  a?: string;
-}
-
 export interface IGenQueryA {
   a?: string;
+  b?: string;
 }
 
 export type GenRouterTypeMain = GenRouterTypeTree["a"];
@@ -38,18 +29,12 @@ export interface GenRouterTypeTree {
   a: {
     name: "a";
     params: {};
-    query: { a?: string };
-    next: GenRouterTypeTree["a"]["b"] | GenRouterTypeTree["a"]["d"];
+    query: { a?: string; b?: string };
+    next: GenRouterTypeTree["a"]["b"];
     b: {
       name: "b";
       params: {};
       query: { a?: string; b?: string };
-      next: null;
-    };
-    d: {
-      name: "d";
-      params: {};
-      query: { a?: string };
       next: null;
     };
   };

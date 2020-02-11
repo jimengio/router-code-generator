@@ -1,4 +1,5 @@
 import { IRouteRule } from "@jimengio/ruled-router";
+import { union, isEmpty } from "lodash";
 let pkg = require("../package.json");
 let genTypeName = "GenRouterTypeTree";
 let genTypeMain = "GenRouterTypeMain";
@@ -60,17 +61,20 @@ function path2QueryName(path: string): string {
   return `IGenQuery${piece}`;
 }
 
-function generateField(rule: IRouteRule, basePath: string, trackQueryTypes: (name: string, queries: string[]) => void): string {
+function generateField(rule: IRouteRule, basePath: string, trackQueryTypes: (name: string, queries: string[]) => void, parentQueries: string[]): string {
   let nameString = JSON.stringify(rule.name || rule.path || "");
   let currentPath = `${basePath}/${rule.path}`;
   let rawPath = JSON.stringify(rule.path);
   let propName = convertPathToMethodName(rule.path);
-  let fieldsInString = ((rule as any).next || []).map((childRule: IRouteRule) => generateField(childRule, currentPath, trackQueryTypes)).join("\n");
+
+  let queries = union(rule.queries, parentQueries);
+
+  let fieldsInString = ((rule as any).next || []).map((childRule: IRouteRule) => generateField(childRule, currentPath, trackQueryTypes, queries)).join("\n");
   let paramsList = convertPathToParams(currentPath);
   let pathInString: string;
 
   // for queries=[], allow generating queries:{} for use cases such as `queries as any`
-  if (rule.queries == null) {
+  if (rule.queries == null && isEmpty(parentQueries)) {
     pathInString = "`" + convertVariables(currentPath) + "`";
     let resultObj = ` {
       name: ${nameString},
@@ -82,11 +86,11 @@ function generateField(rule: IRouteRule, basePath: string, trackQueryTypes: (nam
     `;
     return `${propName}: ${resultObj},`;
   }
-  pathInString = "`" + convertVariables(currentPath) + getQueryPath(rule.queries) + "`";
+  pathInString = "`" + convertVariables(currentPath) + getQueryPath(queries) + "`";
   let queryName = path2QueryName(currentPath);
 
-  if (rule.queries.length > 0) {
-    trackQueryTypes(queryName, rule.queries);
+  if (queries.length > 0) {
+    trackQueryTypes(queryName, queries);
   } else {
     // handle empty queries carefully, not need to create a new name
     queryName = "{}";
@@ -111,7 +115,7 @@ export function generateTree(rules: IRouteRule[], options?: { addVersion?: boole
   let trackQueryTypes = (name: string, queries: string[]) => {
     queryTypes.push([name, queries]);
   };
-  let fieldsInString = rules.map((y) => generateField(y, "", trackQueryTypes)).join("\n");
+  let fieldsInString = rules.map((y) => generateField(y, "", trackQueryTypes, [])).join("\n");
   let queryTypesInString = queryTypes
     .map(([name, queries]) => {
       return `export interface ${name} ${getDefaultQueryTypes(queries)};`;
