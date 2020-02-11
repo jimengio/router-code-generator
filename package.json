@@ -12,8 +12,7 @@
     "postinstall": "rm -rfv node_modules/@types/*/node_modules/@types/react",
     "compile": "rm -rfv lib && tsc -d --project tsconfig-compile.json --outDir lib/",
     "upload": "rsync -avr --progress dist/ fe.jimu.io:~/repo/jimengio/router-code-generator",
-    "test": "jest",
-    "prepare": "yarn test && yarn compile"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
