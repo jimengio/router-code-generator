@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 let ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
-let trackingCode = fs.readFileSync(path.join(__dirname, "webpack/ga.html"), "utf8");
+let trackingCode = "";
 
 module.exports = {
   mode: "production",
