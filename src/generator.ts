@@ -189,8 +189,8 @@ export let generateTypesTree = (rules: IRouteRule[]) => {
     .join(" | ");
 
   return `
-  /** Deprecating, use ${genTypeName}.next instead */
-  export type ${genTypeMain} = ${genTypeName}.next;
+  /** Deprecating, use ${genTypeName}["next"] instead */
+  export type ${genTypeMain} = ${genTypeName}["next"];
 
   export interface ${genTypeName} {
     next: ${topLevelInterfacesCode},
