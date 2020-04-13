@@ -1,9 +1,11 @@
-var path = require("path");
+let path = require("path");
 let fs = require("fs");
-var webpack = require("webpack");
-var HtmlWebpackPlugin = require("html-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
+let webpack = require("webpack");
+let HtmlWebpackPlugin = require("html-webpack-plugin");
+let TerserPlugin = require("terser-webpack-plugin");
 let ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+let ProgressPlugin = require("@jimengio/ci-progress-webpack-plugin");
+// let { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 let trackingCode = "";
 
@@ -100,5 +102,7 @@ module.exports = {
       template: "template.ejs",
       trackingCode,
     }),
+    new ProgressPlugin({ interval: 600 }),
+    // new BundleAnalyzerPlugin(),
   ],
 };

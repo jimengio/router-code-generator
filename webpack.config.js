@@ -1,6 +1,6 @@
-var path = require("path");
-var webpack = require("webpack");
-var HtmlWebpackPlugin = require("html-webpack-plugin");
+let path = require("path");
+let webpack = require("webpack");
+let HtmlWebpackPlugin = require("html-webpack-plugin");
 let ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
