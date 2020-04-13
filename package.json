@@ -1,6 +1,6 @@
 {
   "name": "@jimengio/router-code-generator",
-  "version": "0.2.6",
+  "version": "0.2.7-a2",
   "description": "",
   "main": "./lib/generator.js",
   "scripts": {
@@ -8,7 +8,6 @@
     "watch": "webpack-dev-server --hot",
     "release": "rm -rfv dist/* && webpack --config webpack.release.js",
     "build": "yarn release",
-    "serve": "http-server dist/ -s",
     "postinstall": "rm -rfv node_modules/@types/*/node_modules/@types/react",
     "compile": "rm -rfv lib && tsc -d --project tsconfig-compile.json --outDir lib/",
     "upload": "rsync -avr --progress dist/ fe.jimu.io:~/repo/jimengio/router-code-generator",
@@ -35,7 +34,6 @@
     "fork-ts-checker-webpack-plugin": "^4.1.3",
     "history": "^4.10.1",
     "html-webpack-plugin": "^4.2.0",
-    "http-server": "^0.12.1",
     "immer": "^6.0.3",
     "jest": "^25.3.0",
     "lodash": "^4.17.15",
