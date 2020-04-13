@@ -6,7 +6,7 @@ let genTypeMain = "GenRouterTypeMain";
 
 /** get string interpolation code from each path with variables */
 function convertVariables(x: string): string {
-  return x.replace(/:\w+/g, function(y) {
+  return x.replace(/:\w+/g, function (y) {
     return "${" + y.slice(1) + "}";
   });
 }
@@ -189,9 +189,11 @@ export let generateTypesTree = (rules: IRouteRule[]) => {
     .join(" | ");
 
   return `
-  export type ${genTypeMain} = ${topLevelInterfacesCode}
+  /** Deprecating, use ${genTypeName}.next instead */
+  export type ${genTypeMain} = ${genTypeName}.next;
 
   export interface ${genTypeName} {
+    next: ${topLevelInterfacesCode},
     ${childrenCode}
   }
   `;
