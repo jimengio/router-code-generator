@@ -72,7 +72,7 @@ module.exports = {
     },
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true, async: false }),
+    new ForkTsCheckerWebpackPlugin({ async: false }),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       filename: "index.html",
