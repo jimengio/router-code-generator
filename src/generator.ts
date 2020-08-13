@@ -141,7 +141,7 @@ export function generateTree(rules: IRouteRule[], options?: { addVersion?: boole
 /** generate from path to property name */
 let formatPropName = (x: string) => JSON.stringify(convertPathToMethodName(x));
 
-let generateTypesInterface = (rule: IRouteRule, baseType: string, inheritVariables: string[], inheritQueries: string[]) => {
+let generateTypesInterface = (rule: IRouteRule, baseType: string, inheritVariables: string[], inheritQueries: string[]): string => {
   let currentVariables = rule.path
     .split("/")
     .filter((x) => x.length > 0)
