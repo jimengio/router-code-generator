@@ -2,7 +2,6 @@ import { IRouteRule } from "@jimengio/ruled-router";
 import { union, isEmpty } from "lodash";
 let pkg = require("../package.json");
 let genTypeName = "GenRouterTypeTree";
-let genTypeMain = "GenRouterTypeMain";
 
 /** get string interpolation code from each path with variables */
 function convertVariables(x: string): string {
@@ -189,9 +188,6 @@ export let generateTypesTree = (rules: IRouteRule[]) => {
     .join(" | ");
 
   return `
-  /** Deprecating, use ${genTypeName}["next"] instead */
-  export type ${genTypeMain} = ${genTypeName}["next"];
-
   export interface ${genTypeName} {
     next: ${topLevelInterfacesCode},
     ${childrenCode}
