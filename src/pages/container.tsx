@@ -3,7 +3,7 @@ import { css, cx } from "emotion";
 
 import { generateTree } from "../generator";
 import { IRouteRule } from "@jimengio/ruled-router";
-import { row, fullscreen, column, rowMiddle, rowParted, flex, expand } from "@jimengio/flex-styles";
+import { row, fullscreen, column, rowMiddle, rowParted, expand } from "@jimengio/flex-styles";
 import copy from "copy-to-clipboard";
 
 import parserTypeScript from "prettier/parser-typescript";

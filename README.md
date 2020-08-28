@@ -146,8 +146,6 @@ generateTree(jsonRules, { addTypes: true });
 ```
 
 ```ts
-export type GenRouterTypeMain = GenRouterTypeTree["a"];
-
 export interface GenRouterTypeTree {
   a: {
     name: "a";

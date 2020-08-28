@@ -32,9 +32,6 @@ export interface IGenQueryA {
   a?: string;
 }
 
-/** Deprecating, use GenRouterTypeTree["next"] instead */
-export type GenRouterTypeMain = GenRouterTypeTree["next"];
-
 export interface GenRouterTypeTree {
   next: GenRouterTypeTree["a"];
   a: {
